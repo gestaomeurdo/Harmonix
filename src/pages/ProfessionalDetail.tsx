@@ -17,6 +17,14 @@ const ProfessionalDetail = () => {
 
   const whatsappLink = `https://wa.me/${prof.whatsappNumber}?text=Olá ${prof.nome}, vi seu perfil no Harmonix e gostaria de agendar uma avaliação.`;
 
+  // Mock de galeria de resultados
+  const gallery = [
+    'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=600',
+    'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&q=80&w=600',
+    'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&q=80&w=600',
+    'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&q=80&w=600'
+  ];
+
   return (
     <div className="min-h-screen bg-[#FDFBF7]">
       <Navbar />
@@ -29,7 +37,7 @@ const ProfessionalDetail = () => {
 
         <div className="max-w-7xl mx-auto">
           {/* Editorial Header */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-48">
             <div>
               <div className="flex items-center gap-4 mb-8">
                 <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-[#1C1917]/40">
@@ -61,12 +69,12 @@ const ProfessionalDetail = () => {
             </div>
 
             <div className="aspect-[3/4] rounded-sm overflow-hidden editorial-shadow">
-              <img src={prof.fotoUrl} alt={prof.nome} className="w-full h-full object-cover" />
+              <img src={prof.fotoUrl} alt={prof.nome} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
             </div>
           </div>
 
           {/* Content Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 border-t border-[#1C1917]/5 pt-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 border-t border-[#1C1917]/5 pt-32 mb-48">
             <div className="lg:col-span-7">
               <section className="mb-32">
                 <h2 className="text-[10px] font-medium uppercase tracking-[0.5em] text-[#1C1917]/30 mb-12">A Filosofia</h2>
@@ -75,13 +83,25 @@ const ProfessionalDetail = () => {
                 </p>
               </section>
 
-              <section>
+              <section className="mb-32">
                 <h2 className="text-[10px] font-medium uppercase tracking-[0.5em] text-[#1C1917]/30 mb-12">Expertise</h2>
                 <div className="grid grid-cols-1 gap-8">
                   {prof.procedimentos.map(proc => (
                     <div key={proc} className="flex items-center justify-between py-6 border-b border-[#1C1917]/5 group">
                       <span className="text-2xl font-serif text-[#1C1917] group-hover:translate-x-4 transition-transform duration-500">{proc}</span>
                       <div className="h-2 w-2 rounded-full bg-[#1C1917]/10 group-hover:bg-[#5B2EFF] transition-colors" />
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Gallery Section */}
+              <section>
+                <h2 className="text-[10px] font-medium uppercase tracking-[0.5em] text-[#1C1917]/30 mb-12">Resultados & Estética</h2>
+                <div className="grid grid-cols-2 gap-8">
+                  {gallery.map((img, i) => (
+                    <div key={i} className="aspect-square overflow-hidden bg-slate-100">
+                      <img src={img} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Resultado" />
                     </div>
                   ))}
                 </div>
