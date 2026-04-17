@@ -1,50 +1,50 @@
--- Limpando dados existentes para evitar duplicatas nos exemplos
-DELETE FROM public.professionals;
+-- Limpa dados existentes (opcional)
+-- DELETE FROM public.professionals;
 
--- Inserindo especialistas de exemplo
+-- Insere profissionais de elite
 INSERT INTO public.professionals (nome, foto_url, cidade, especialidade, procedimentos, avaliacao, descricao, whatsapp_number, destaque)
 VALUES 
 (
-  'Dr. Ricardo Alencar', 
-  'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800', 
+  'Dra. Beatriz Cavalcante', 
+  'https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=1000&auto=format&fit=crop', 
   'São Paulo, SP', 
-  'Harmonização Facial', 
-  ARRAY['Preenchimento Labial', 'MD Codes', 'Rinomodelação'], 
+  'Dermatologia Estética', 
+  ARRAY['Botox', 'Preenchimento Labial', 'Bioestimuladores'], 
   5.0, 
-  'Especialista em anatomia facial com mais de 15 anos de experiência internacional. Focado em resultados naturais e elegância estrutural.', 
+  'Especialista em rejuvenescimento natural com mais de 12 anos de experiência. Focada em realçar a beleza individual sem exageros.', 
   '5511999999999', 
   true
 ),
 (
-  'Dra. Beatriz Soares', 
-  'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=800', 
+  'Dr. Marcus Vinícius', 
+  'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1000&auto=format&fit=crop', 
   'Rio de Janeiro, RJ', 
-  'Bioestimuladores', 
-  ARRAY['Sculptra', 'Radiesse', 'Ultraformer III'], 
+  'Cirurgia Plástica', 
+  ARRAY['Rinomodelação', 'Fios de PDO', 'Lipo de Papada'], 
   4.9, 
-  'Referência em rejuvenescimento preventivo e estímulo de colágeno. Criadora do protocolo Glow Skin para peles maduras.', 
+  'Referência nacional em procedimentos minimamente invasivos. Membro da Sociedade Brasileira de Cirurgia Plástica.', 
   '5521988888888', 
   true
 ),
 (
-  'Dr. Marcus Vinícius', 
-  'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800', 
+  'Dra. Helena Soares', 
+  'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000&auto=format&fit=crop', 
   'Curitiba, PR', 
-  'Rinomodelação', 
-  ARRAY['Rinomodelação Estruturada', 'Fios de PDO', 'Botox'], 
-  4.8, 
-  'Especialista em procedimentos minimamente invasivos. Conhecido pela precisão técnica e atendimento humanizado de alto padrão.', 
+  'Harmonização Facial', 
+  ARRAY['Preenchimento', 'Bioestimuladores', 'Botox'], 
+  5.0, 
+  'Pioneira em técnicas de estruturação facial avançada. Professora e palestrante internacional sobre estética regenerativa.', 
   '5541977777777', 
-  false
+  true
 ),
 (
-  'Dra. Helena Luz', 
-  'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800', 
+  'Dr. Ricardo Almeida', 
+  'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1000&auto=format&fit=crop', 
   'Belo Horizonte, MG', 
-  'Toxina Botulínica', 
-  ARRAY['Botox Full Face', 'Lipo de Papada', 'Skinbooster'], 
-  5.0, 
-  'Mestre em estética avançada. Sua filosofia de trabalho baseia-se na preservação da identidade e realce da beleza individual.', 
+  'Odontologia Estética', 
+  ARRAY['Lentes de Contato', 'Botox', 'Preenchimento'], 
+  4.8, 
+  'Especialista em sorrisos e proporção áurea facial. Unindo saúde bucal e estética de forma integrada.', 
   '5531966666666', 
-  true
+  false
 );
