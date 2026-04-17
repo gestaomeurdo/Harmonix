@@ -20,7 +20,7 @@ const CategoryGrid = () => {
           <div className="w-16 h-16 rounded-full border border-gray-100 flex items-center justify-center mb-4 transition-all duration-500 group-hover:border-[#A855F7] group-hover:bg-purple-50/30">
             <cat.icon size={20} strokeWidth={1} className="text-gray-400 group-hover:text-[#A855F7] transition-colors" />
           </div>
-          <span className="text-[10px] font-light tracking-[0.2em] text-gray-500 group-hover:text-[#1A1A1A] transition-colors">
+          <span className="text-[10px] font-light tracking-[0.2em] text-gray-500 group-hover:text-[#1A1A1A] transition-colors text-center">
             {cat.name}
           </span>
         </div>
