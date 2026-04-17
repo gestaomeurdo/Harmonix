@@ -2,101 +2,118 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Professional, AuthState } from '../types';
+import { supabase } from '../integrations/supabase/client';
+import { toast } from 'sonner';
 
 interface AppContextType {
   professionals: Professional[];
-  addProfessional: (p: Professional) => void;
-  updateProfessional: (p: Professional) => void;
-  deleteProfessional: (id: string) => void;
+  loading: boolean;
+  refreshProfessionals: () => Promise<void>;
+  addProfessional: (p: Omit<Professional, 'id'>) => Promise<void>;
+  updateProfessional: (p: Professional) => Promise<void>;
+  deleteProfessional: (id: string) => Promise<void>;
   auth: AuthState;
-  login: (email: string, pass: string) => boolean;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-const MOCK_PROFESSIONALS: Professional[] = [
-  {
-    id: '1',
-    nome: 'Dra. Ana Silveira',
-    fotoUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=400',
-    cidade: 'São Paulo, SP',
-    especialidade: 'Dermatologista',
-    procedimentos: ['Botox', 'Preenchimento Labial', 'Bioestimuladores'],
-    avaliacao: 4.9,
-    descricao: 'Especialista em rejuvenescimento facial natural com mais de 10 anos de experiência.',
-    whatsappNumber: '5511999999999',
-    destaque: true
-  },
-  {
-    id: '2',
-    nome: 'Dr. Marcos Oliveira',
-    fotoUrl: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400',
-    cidade: 'Rio de Janeiro, RJ',
-    especialidade: 'Cirurgião Dentista',
-    procedimentos: ['Rinomodelação', 'Lipo de Papada', 'Fios de Sustentação'],
-    avaliacao: 4.8,
-    descricao: 'Focado em harmonização orofacial e estética avançada.',
-    whatsappNumber: '5521988888888',
-    destaque: true
-  },
-  {
-    id: '3',
-    nome: 'Dra. Beatriz Costa',
-    fotoUrl: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=400',
-    cidade: 'Belo Horizonte, MG',
-    especialidade: 'Biomédica Esteta',
-    procedimentos: ['Peeling Químico', 'Microagulhamento', 'Botox'],
-    avaliacao: 4.7,
-    descricao: 'Especialista em saúde estética e procedimentos minimamente invasivos.',
-    whatsappNumber: '5531977777777',
-    destaque: false
-  }
-];
-
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [professionals, setProfessionals] = useState<Professional[]>(() => {
-    const saved = localStorage.getItem('harmonix_professionals');
-    return saved ? JSON.parse(saved) : MOCK_PROFESSIONALS;
-  });
+  const [professionals, setProfessionals] = useState<Professional[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [auth, setAuth] = useState<AuthState>({ isAuthenticated: false, user: null });
 
-  const [auth, setAuth] = useState<AuthState>(() => {
-    const isAuth = localStorage.getItem('harmonix_auth') === 'true';
-    return { isAuthenticated: isAuth, user: isAuth ? 'Admin' : null };
-  });
+  const refreshProfessionals = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('professionals')
+      .select('*')
+      .order('destaque', { ascending: false });
+    
+    if (error) {
+      toast.error('Erro ao carregar profissionais');
+    } else {
+      // Map snake_case from DB to camelCase for the app
+      const mappedData = (data || []).map(p => ({
+        id: p.id,
+        nome: p.nome,
+        fotoUrl: p.foto_url,
+        cidade: p.cidade,
+        especialidade: p.especialidade,
+        procedimentos: p.procedimentos,
+        avaliacao: Number(p.avaliacao),
+        descricao: p.descricao,
+        whatsappNumber: p.whatsapp_number,
+        destaque: p.destaque
+      }));
+      setProfessionals(mappedData);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    localStorage.setItem('harmonix_professionals', JSON.stringify(professionals));
-  }, [professionals]);
+    refreshProfessionals();
 
-  const addProfessional = (p: Professional) => setProfessionals([...professionals, p]);
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        setAuth({ isAuthenticated: true, user: session.user.email || 'User' });
+      } else {
+        setAuth({ isAuthenticated: false, user: null });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const addProfessional = async (p: Omit<Professional, 'id'>) => {
+    const { error } = await supabase.from('professionals').insert([{
+      nome: p.nome,
+      foto_url: p.fotoUrl,
+      cidade: p.cidade,
+      especialidade: p.especialidade,
+      procedimentos: p.procedimentos,
+      avaliacao: p.avaliacao,
+      descricao: p.descricao,
+      whatsapp_number: p.whatsappNumber,
+      destaque: p.destaque
+    }]);
+
+    if (error) throw error;
+    await refreshProfessionals();
+  };
   
-  const updateProfessional = (p: Professional) => {
-    setProfessionals(professionals.map(item => item.id === p.id ? p : item));
+  const updateProfessional = async (p: Professional) => {
+    const { error } = await supabase.from('professionals').update({
+      nome: p.nome,
+      foto_url: p.fotoUrl,
+      cidade: p.cidade,
+      especialidade: p.especialidade,
+      procedimentos: p.procedimentos,
+      avaliacao: p.avaliacao,
+      descricao: p.descricao,
+      whatsapp_number: p.whatsappNumber,
+      destaque: p.destaque
+    }).eq('id', p.id);
+
+    if (error) throw error;
+    await refreshProfessionals();
   };
 
-  const deleteProfessional = (id: string) => {
-    setProfessionals(professionals.filter(p => p.id !== id));
+  const deleteProfessional = async (id: string) => {
+    const { error } = await supabase.from('professionals').delete().eq('id', id);
+    if (error) throw error;
+    await refreshProfessionals();
   };
 
-  const login = (email: string, pass: string) => {
-    if (email === 'admin@harmonix.com' && pass === '123456') {
-      setAuth({ isAuthenticated: true, user: 'Admin' });
-      localStorage.setItem('harmonix_auth', 'true');
-      return true;
-    }
-    return false;
-  };
-
-  const logout = () => {
-    setAuth({ isAuthenticated: false, user: null });
-    localStorage.removeItem('harmonix_auth');
+  const logout = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
     <AppContext.Provider value={{ 
-      professionals, addProfessional, updateProfessional, deleteProfessional,
-      auth, login, logout 
+      professionals, loading, refreshProfessionals, addProfessional, updateProfessional, deleteProfessional,
+      auth, logout 
     }}>
       {children}
     </AppContext.Provider>
