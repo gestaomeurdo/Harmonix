@@ -25,36 +25,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const refreshProfessionals = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('professionals')
-      .select('*')
-      .order('destaque', { ascending: false });
-    
-    if (error) {
-      toast.error('Erro ao carregar profissionais');
-    } else {
-      // Map snake_case from DB to camelCase for the app
-      const mappedData = (data || []).map(p => ({
-        id: p.id,
-        nome: p.nome,
-        fotoUrl: p.foto_url,
-        cidade: p.cidade,
-        especialidade: p.especialidade,
-        procedimentos: p.procedimentos,
-        avaliacao: Number(p.avaliacao),
-        descricao: p.descricao,
-        whatsappNumber: p.whatsapp_number,
-        destaque: p.destaque
-      }));
-      setProfessionals(mappedData);
+    try {
+      const { data, error } = await supabase
+        .from('professionals')
+        .select('*')
+        .order('destaque', { ascending: false });
+      
+      if (error) {
+        console.error('Erro Supabase:', error);
+        toast.error(`Erro ao carregar profissionais: ${error.message}`);
+      } else {
+        const mappedData = (data || []).map(p => ({
+          id: p.id,
+          nome: p.nome,
+          fotoUrl: p.foto_url,
+          cidade: p.cidade,
+          especialidade: p.especialidade,
+          procedimentos: p.procedimentos,
+          avaliacao: Number(p.avaliacao),
+          descricao: p.descricao,
+          whatsappNumber: p.whatsapp_number,
+          destaque: p.destaque
+        }));
+        setProfessionals(mappedData);
+      }
+    } catch (err) {
+      console.error('Erro inesperado:', err);
+      toast.error('Ocorreu um erro inesperado ao carregar os dados.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     refreshProfessionals();
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         setAuth({ isAuthenticated: true, user: session.user.email || 'User' });
