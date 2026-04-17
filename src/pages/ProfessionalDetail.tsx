@@ -4,9 +4,8 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import Navbar from '../components/Navbar';
-import { Star, MapPin, MessageCircle, CheckCircle2, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { Star, MapPin, MessageCircle, Check, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 const ProfessionalDetail = () => {
   const { id } = useParams();
@@ -14,73 +13,75 @@ const ProfessionalDetail = () => {
   
   const prof = professionals.find(p => p.id === id);
 
-  if (!prof) return <div className="p-20 text-center font-light">Profissional não encontrado.</div>;
+  if (!prof) return <div className="p-32 text-center font-serif text-2xl">Profissional não encontrado.</div>;
 
   const whatsappLink = `https://wa.me/${prof.whatsappNumber}?text=Olá ${prof.nome}, vi seu perfil no Harmonix e gostaria de agendar uma avaliação.`;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FDFBF7]">
       <Navbar />
       
-      <div className="container mx-auto px-8 py-16">
-        <Link to="/profissionais" className="inline-flex items-center gap-3 text-slate-400 hover:text-[#1A1A1A] mb-16 transition-colors text-xs font-bold uppercase tracking-widest">
-          <ArrowLeft size={16} />
-          Voltar para a curadoria
+      <div className="container mx-auto px-12 py-24">
+        <Link to="/profissionais" className="inline-flex items-center gap-4 text-[#1C1917]/40 hover:text-[#1C1917] mb-24 transition-colors text-[10px] font-medium uppercase tracking-[0.4em]">
+          <ArrowLeft size={14} strokeWidth={1} />
+          Retornar ao Diretório
         </Link>
 
-        <div className="max-w-6xl mx-auto">
-          {/* Hero Header */}
-          <div className="text-center mb-20">
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <Badge className="bg-[#EC4899]/5 text-[#EC4899] border-none px-4 py-1.5 rounded-full font-bold text-[10px] uppercase tracking-widest">
-                {prof.especialidade}
-              </Badge>
-              <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-slate-50 text-slate-400 border border-slate-100">
-                <ShieldCheck size={12} className="text-[#5B2EFF]" />
-                <span className="text-[10px] font-bold uppercase tracking-wider">Perfil Verificado</span>
+        <div className="max-w-7xl mx-auto">
+          {/* Editorial Header */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center mb-32">
+            <div>
+              <div className="flex items-center gap-4 mb-8">
+                <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-[#1C1917]/40">
+                  {prof.especialidade}
+                </span>
+                <div className="h-[1px] w-8 bg-[#1C1917]/10" />
+                <div className="flex items-center gap-1.5 text-[#EC4899]">
+                  <Check size={12} strokeWidth={3} />
+                  <span className="text-[9px] font-bold uppercase tracking-widest">Elite Member</span>
+                </div>
               </div>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold text-[#1A1A1A] mb-8">{prof.nome}</h1>
-            <div className="flex items-center justify-center gap-6 text-slate-400">
-              <div className="flex items-center gap-2">
-                <MapPin size={18} strokeWidth={1.5} />
-                <span className="font-light">{prof.cidade}</span>
-              </div>
-              <div className="h-1 w-1 rounded-full bg-slate-200" />
-              <div className="flex items-center gap-2">
-                <Star size={18} className="fill-[#EC4899] text-[#EC4899]" />
-                <span className="font-bold text-[#1A1A1A]">{prof.avaliacao}</span>
-                <span className="font-light text-xs">(120+ avaliações)</span>
-              </div>
-            </div>
-          </div>
+              
+              <h1 className="text-7xl md:text-9xl font-serif text-[#1C1917] mb-12 leading-[0.9]">
+                {prof.nome.split(' ').map((word, i) => (
+                  <span key={i} className="block">{word}</span>
+                ))}
+              </h1>
 
-          {/* Main Image */}
-          <div className="mb-32">
-            <div className="aspect-[21/9] rounded-[3rem] overflow-hidden premium-shadow">
+              <div className="flex items-center gap-12 text-[#1C1917]/40">
+                <div className="flex items-center gap-3">
+                  <MapPin size={18} strokeWidth={1} />
+                  <span className="text-xs font-light tracking-widest uppercase">{prof.cidade}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Star size={18} strokeWidth={1} className="fill-[#1C1917]/10" />
+                  <span className="text-xs font-bold tracking-widest uppercase">{prof.avaliacao} / 5.0</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="aspect-[3/4] rounded-sm overflow-hidden editorial-shadow">
               <img src={prof.fotoUrl} alt={prof.nome} className="w-full h-full object-cover" />
             </div>
           </div>
 
-          {/* Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24">
+          {/* Content Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 border-t border-[#1C1917]/5 pt-32">
             <div className="lg:col-span-7">
-              <section className="mb-20">
-                <h2 className="text-sm font-bold uppercase tracking-[0.3em] text-slate-400 mb-10">Biografia</h2>
-                <p className="text-2xl font-light text-[#4D4D4D] leading-relaxed italic">
+              <section className="mb-32">
+                <h2 className="text-[10px] font-medium uppercase tracking-[0.5em] text-[#1C1917]/30 mb-12">A Filosofia</h2>
+                <p className="text-4xl font-serif italic text-[#1C1917]/80 leading-[1.4]">
                   "{prof.descricao}"
                 </p>
               </section>
 
               <section>
-                <h2 className="text-sm font-bold uppercase tracking-[0.3em] text-slate-400 mb-10">Especialidades</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <h2 className="text-[10px] font-medium uppercase tracking-[0.5em] text-[#1C1917]/30 mb-12">Expertise</h2>
+                <div className="grid grid-cols-1 gap-8">
                   {prof.procedimentos.map(proc => (
-                    <div key={proc} className="flex items-center gap-4 p-6 rounded-3xl bg-[#F9FAFB] border border-slate-50 group hover:bg-white hover:premium-shadow transition-all">
-                      <div className="h-10 w-10 rounded-2xl bg-white flex items-center justify-center text-[#5B2EFF] shadow-sm group-hover:bg-[#5B2EFF] group-hover:text-white transition-colors">
-                        <CheckCircle2 size={20} />
-                      </div>
-                      <span className="font-bold text-[#1A1A1A] tracking-tight">{proc}</span>
+                    <div key={proc} className="flex items-center justify-between py-6 border-b border-[#1C1917]/5 group">
+                      <span className="text-2xl font-serif text-[#1C1917] group-hover:translate-x-4 transition-transform duration-500">{proc}</span>
+                      <div className="h-2 w-2 rounded-full bg-[#1C1917]/10 group-hover:bg-[#5B2EFF] transition-colors" />
                     </div>
                   ))}
                 </div>
@@ -88,32 +89,28 @@ const ProfessionalDetail = () => {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="sticky top-32 p-10 rounded-[3rem] bg-[#1A1A1A] text-white premium-shadow">
-                <h3 className="text-3xl font-bold mb-4">Agende sua Avaliação</h3>
-                <p className="text-slate-400 font-light mb-10 leading-relaxed">
-                  Inicie sua jornada de transformação com um dos especialistas mais requisitados da região.
+              <div className="sticky top-40 p-16 bg-[#1C1917] text-[#FDFBF7] editorial-shadow">
+                <h3 className="text-4xl font-serif mb-8">Solicitar Consulta</h3>
+                <p className="text-[#FDFBF7]/50 font-light mb-12 leading-relaxed text-lg">
+                  Acesse a agenda exclusiva e inicie seu protocolo de rejuvenescimento personalizado.
                 </p>
                 
-                <div className="space-y-6 mb-10">
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="font-medium">Disponível para novos pacientes</span>
-                  </div>
-                  <div className="flex items-center gap-4 text-sm text-slate-400">
-                    <CheckCircle2 size={16} className="text-[#5B2EFF]" />
-                    <span>Consulta inicial personalizada</span>
+                <div className="space-y-8 mb-16">
+                  <div className="flex items-center gap-4 text-[10px] uppercase tracking-[0.3em]">
+                    <div className="h-1.5 w-1.5 rounded-full bg-[#5B2EFF]" />
+                    <span>Vagas limitadas para este mês</span>
                   </div>
                 </div>
 
                 <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  <Button className="w-full h-20 bg-gradient-to-r from-[#5B2EFF] to-[#A855F7] hover:opacity-90 text-white rounded-full text-lg font-bold gap-4 shadow-xl shadow-primary/20 transition-all">
-                    <MessageCircle size={24} />
-                    Agendar via WhatsApp
+                  <Button className="w-full h-20 bg-gradient-to-r from-[#5B2EFF] to-[#A855F7] hover:opacity-90 text-white rounded-none text-[11px] font-bold uppercase tracking-[0.4em] shadow-2xl shadow-primary/20 transition-all">
+                    <MessageCircle size={20} className="mr-4" />
+                    Agendar via Concierge
                   </Button>
                 </a>
                 
-                <p className="text-center text-[10px] font-bold uppercase tracking-widest text-slate-500 mt-6">
-                  Resposta em até 30 minutos
+                <p className="text-center text-[8px] font-light uppercase tracking-[0.5em] text-[#FDFBF7]/30 mt-8">
+                  Atendimento Prioritário
                 </p>
               </div>
             </div>

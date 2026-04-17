@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, MapPin, CheckCircle2 } from 'lucide-react';
+import { Star, Check } from 'lucide-react';
 import { Professional } from '../types';
-import { Badge } from './ui/badge';
 
 interface Props {
   professional: Professional;
@@ -13,55 +12,53 @@ interface Props {
 const ProfessionalCard: React.FC<Props> = ({ professional }) => {
   return (
     <Link to={`/profissional/${professional.id}`} className="group block">
-      <div className="premium-shadow-hover rounded-[2.5rem] bg-white overflow-hidden">
-        <div className="relative aspect-[4/5] overflow-hidden">
+      <div className="editorial-shadow transition-all duration-700 hover:-translate-y-2">
+        <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
           <img 
             src={professional.fotoUrl} 
             alt={professional.nome}
-            className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
           />
+          
+          {/* Glass Badges */}
           <div className="absolute top-6 right-6">
-            <Badge className="bg-white/90 backdrop-blur-md text-[#1A1A1A] border-none px-3 py-1.5 rounded-full shadow-sm font-bold text-xs gap-1">
-              <Star size={12} className="fill-[#EC4899] text-[#EC4899]" />
+            <div className="glass-badge px-3 py-1.5 flex items-center gap-1.5">
+              <Star size={10} className="fill-white/80 text-transparent" />
               {professional.avaliacao}
-            </Badge>
-          </div>
-          {professional.destaque && (
-            <div className="absolute top-6 left-6">
-              <Badge className="bg-[#EC4899]/10 backdrop-blur-md text-[#EC4899] border-none px-4 py-1.5 rounded-full font-bold text-[10px] uppercase tracking-widest">
-                Premium
-              </Badge>
-            </div>
-          )}
-        </div>
-        
-        <div className="p-8">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A855F7]">
-              {professional.especialidade}
-            </span>
-            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#EC4899]/5 text-[#EC4899]">
-              <CheckCircle2 size={10} />
-              <span className="text-[9px] font-bold uppercase tracking-wider">Verificada</span>
             </div>
           </div>
           
-          <h3 className="text-xl font-bold text-[#1A1A1A] mb-3 group-hover:text-[#5B2EFF] transition-colors">
+          {professional.destaque && (
+            <div className="absolute top-6 left-6">
+              <div className="glass-badge px-4 py-1.5">
+                Premium
+              </div>
+            </div>
+          )}
+
+          {/* Subtle Overlay on Hover */}
+          <div className="absolute inset-0 bg-[#1C1917]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        </div>
+        
+        <div className="py-8 px-2">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[9px] font-light uppercase tracking-[0.3em] text-[#1C1917]/50">
+              {professional.especialidade}
+            </span>
+            <div className="h-[1px] w-4 bg-[#1C1917]/10" />
+            <div className="flex items-center gap-1 text-[#EC4899]">
+              <Check size={10} strokeWidth={3} />
+              <span className="text-[8px] font-bold uppercase tracking-widest">Verificada</span>
+            </div>
+          </div>
+          
+          <h3 className="text-2xl font-serif text-[#1C1917] mb-2">
             {professional.nome}
           </h3>
           
-          <div className="flex items-center gap-1.5 text-slate-400 text-sm mb-6">
-            <MapPin size={14} strokeWidth={1.5} />
-            <span className="font-light">{professional.cidade}</span>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {professional.procedimentos.slice(0, 2).map(p => (
-              <span key={p} className="text-[11px] font-medium text-slate-500 px-3 py-1.5 bg-slate-50 rounded-full border border-slate-100">
-                {p}
-              </span>
-            ))}
-          </div>
+          <p className="text-[11px] font-light text-[#1C1917]/40 uppercase tracking-[0.1em]">
+            {professional.cidade}
+          </p>
         </div>
       </div>
     </Link>
