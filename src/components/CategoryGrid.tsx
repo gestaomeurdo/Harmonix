@@ -1,15 +1,15 @@
 "use client";
 
 import React from 'react';
-import { Droplets, Zap, Sparkles, Scissors, Target, Heart } from 'lucide-react';
+import { Sparkles, Zap, Smile, Shield, Target, Star } from 'lucide-react';
 
 const categories = [
-  { name: 'PREENCHIMENTO', icon: Droplets },
-  { name: 'BOTOX', icon: Zap },
-  { name: 'BIOESTIMULADORES', icon: Sparkles },
-  { name: 'FIOS DE PDO', icon: Scissors },
-  { name: 'RINOMODELAÇÃO', icon: Target },
-  { name: 'LIPO DE PAPADA', icon: Heart },
+  { name: 'LENTES DE CONTATO', icon: Smile },
+  { name: 'BOTOX FACIAL', icon: Zap },
+  { name: 'FACETAS EM RESINA', icon: Sparkles },
+  { name: 'PREENCHIMENTO', icon: Target },
+  { name: 'HARMONIZAÇÃO', icon: Star },
+  { name: 'CLAREAMENTO ELITE', icon: Shield },
 ];
 
 const CategoryGrid = () => {
