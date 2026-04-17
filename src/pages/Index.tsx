@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Search, Sparkles, ShieldCheck, Zap, Heart } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import ProfessionalCard from '../components/ProfessionalCard';
