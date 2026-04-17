@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, Menu } from 'lucide-react';
+import { LogOut, Menu, User } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { Button } from './ui/button';
 
@@ -11,39 +11,48 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="w-full bg-[#FDFBF7]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#1C1917]/5">
-      <div className="container mx-auto px-12 h-28 flex items-center justify-between">
-        <nav className="hidden md:flex items-center gap-12 flex-1">
-          <Link to="/profissionais" className="text-[11px] font-light text-[#1C1917] hover:opacity-60 transition-opacity tracking-[0.2em] uppercase luxury-underline pb-1">
-            Diretório
+    <header className="w-full bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="w-10 h-10 bg-brand-gradient rounded-xl flex items-center justify-center text-white font-bold text-xl">
+            H
+          </div>
+          <span className="text-xl font-bold tracking-tight text-[#1A1A1A]">Harmonix</span>
+        </Link>
+
+        <nav className="hidden md:flex items-center gap-8">
+          <Link to="/profissionais" className="text-sm font-medium text-[#4D4D4D] hover:text-[#5B2EFF] transition-colors">
+            Explorar Profissionais
           </Link>
-          <Link to="/" className="text-[11px] font-light text-[#1C1917] hover:opacity-60 transition-opacity tracking-[0.2em] uppercase luxury-underline pb-1">
-            Curadoria
+          <Link to="/" className="text-sm font-medium text-[#4D4D4D] hover:text-[#5B2EFF] transition-colors">
+            Como Funciona
           </Link>
         </nav>
 
-        <Link to="/" className="flex flex-col items-center gap-1 flex-1">
-          <span className="text-3xl font-serif tracking-tighter text-[#1C1917]">Harmonix</span>
-          <span className="text-[8px] font-light tracking-[0.5em] text-[#1C1917]/40 uppercase">Elite Marketplace</span>
-        </Link>
-
-        <div className="flex items-center justify-end gap-8 flex-1">
+        <div className="flex items-center gap-4">
           {auth.isAuthenticated ? (
-            <div className="flex items-center gap-6">
-              <Link to="/admin" className="text-[11px] font-light tracking-[0.2em] uppercase">
-                Painel
+            <div className="flex items-center gap-3">
+              <Link to="/admin">
+                <Button variant="ghost" className="rounded-full text-sm font-medium">Painel Admin</Button>
               </Link>
-              <button onClick={() => { logout(); navigate('/'); }} className="text-[#1C1917]/40 hover:text-red-500 transition-colors">
-                <LogOut size={16} strokeWidth={1.5} />
-              </button>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="rounded-full border-gray-200"
+                onClick={() => { logout(); navigate('/'); }}
+              >
+                <LogOut size={18} className="text-gray-500" />
+              </Button>
             </div>
           ) : (
-            <Link to="/login" className="text-[11px] font-medium text-[#1C1917] tracking-[0.2em] uppercase luxury-underline pb-1">
-              Membro
+            <Link to="/login">
+              <Button className="bg-brand-gradient hover:opacity-90 text-white rounded-full px-6 font-medium shadow-lg shadow-purple-200 transition-all">
+                Área do Profissional
+              </Button>
             </Link>
           )}
           <div className="md:hidden">
-            <Menu size={20} strokeWidth={1} />
+            <Menu size={24} className="text-gray-600" />
           </div>
         </div>
       </div>

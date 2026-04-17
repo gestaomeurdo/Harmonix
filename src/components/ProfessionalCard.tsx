@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, Check } from 'lucide-react';
+import { Star, MapPin, ShieldCheck } from 'lucide-react';
 import { Professional } from '../types';
+import { Button } from './ui/button';
 
 interface Props {
   professional: Professional;
@@ -12,53 +13,50 @@ interface Props {
 const ProfessionalCard: React.FC<Props> = ({ professional }) => {
   return (
     <Link to={`/profissional/${professional.id}`} className="group block">
-      <div className="editorial-shadow transition-all duration-700 hover:-translate-y-2">
-        <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
+      <div className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 modern-shadow transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+        <div className="relative aspect-[3/4] overflow-hidden">
           <img 
             src={professional.fotoUrl} 
             alt={professional.nome}
-            className="h-full w-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           
-          {/* Glass Badges */}
-          <div className="absolute top-6 right-6">
-            <div className="glass-badge px-3 py-1.5 flex items-center gap-1.5">
-              <Star size={10} className="fill-white/80 text-transparent" />
-              {professional.avaliacao}
-            </div>
-          </div>
-          
-          {professional.destaque && (
-            <div className="absolute top-6 left-6">
-              <div className="glass-badge px-4 py-1.5">
+          {/* Badges */}
+          <div className="absolute top-4 left-4 flex flex-col gap-2">
+            {professional.destaque && (
+              <div className="bg-[#A855F7] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-lg">
                 Premium
               </div>
-            </div>
-          )}
-
-          {/* Subtle Overlay on Hover */}
-          <div className="absolute inset-0 bg-[#1C1917]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        </div>
-        
-        <div className="py-8 px-2">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-[9px] font-light uppercase tracking-[0.3em] text-[#1C1917]/50">
-              {professional.especialidade}
-            </span>
-            <div className="h-[1px] w-4 bg-[#1C1917]/10" />
-            <div className="flex items-center gap-1 text-[#EC4899]">
-              <Check size={10} strokeWidth={3} />
-              <span className="text-[8px] font-bold uppercase tracking-widest">Verificada</span>
+            )}
+            <div className="bg-white/90 backdrop-blur-md text-[#EC4899] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+              <ShieldCheck size={12} /> Verificada
             </div>
           </div>
-          
-          <h3 className="text-2xl font-serif text-[#1C1917] mb-2">
+
+          <div className="absolute bottom-4 right-4">
+            <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-2xl flex items-center gap-1 shadow-sm">
+              <Star size={14} className="fill-yellow-400 text-yellow-400" />
+              <span className="text-sm font-bold text-[#1A1A1A]">{professional.avaliacao}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="p-6">
+          <h3 className="text-xl font-bold text-[#1A1A1A] mb-1 group-hover:text-[#5B2EFF] transition-colors">
             {professional.nome}
           </h3>
-          
-          <p className="text-[11px] font-light text-[#1C1917]/40 uppercase tracking-[0.1em]">
-            {professional.cidade}
+          <p className="text-sm font-medium text-[#A855F7] mb-3">
+            {professional.especialidade}
           </p>
+          
+          <div className="flex items-center gap-1.5 text-[#4D4D4D] mb-6">
+            <MapPin size={14} className="text-gray-400" />
+            <span className="text-xs font-medium">{professional.cidade}</span>
+          </div>
+
+          <Button className="w-full bg-gray-50 hover:bg-brand-gradient hover:text-white text-[#1A1A1A] border-none rounded-2xl font-semibold transition-all duration-300">
+            Ver Perfil Completo
+          </Button>
         </div>
       </div>
     </Link>

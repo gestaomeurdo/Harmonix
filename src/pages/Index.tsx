@@ -2,87 +2,90 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Sparkles, ShieldCheck, Zap, Heart } from 'lucide-react';
+import { Search, Sparkles, ShieldCheck, Zap, Heart, ArrowRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import ProfessionalCard from '../components/ProfessionalCard';
 import Navbar from '../components/Navbar';
+import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const { professionals } = useApp();
   const [search, setSearch] = useState('');
   
   const featured = professionals.filter(p => p.destaque);
-  
-  const categories = [
-    { name: 'Botox', icon: <Sparkles size={18} strokeWidth={1} /> },
-    { name: 'Preenchimento', icon: <ShieldCheck size={18} strokeWidth={1} /> },
-    { name: 'Bioestimuladores', icon: <Zap size={18} strokeWidth={1} /> },
-    { name: 'Rinomodelação', icon: <Heart size={18} strokeWidth={1} /> },
-  ];
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7]">
+    <div className="min-h-screen bg-white">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="py-32 md:py-48">
-        <div className="container mx-auto px-12 text-center">
-          <h2 className="text-[10px] font-light tracking-[0.6em] text-[#1C1917]/40 uppercase mb-12">
-            The Art of Aesthetics
-          </h2>
-          <h1 className="text-6xl md:text-8xl font-serif text-[#1C1917] max-w-6xl mx-auto mb-16 leading-[1.05]">
-            Sua beleza, simplificada. <br />
-            <span className="italic font-normal text-[#1C1917]/60">Encontre a excelência.</span>
-          </h1>
+      {/* Hero Section com Gradiente Moderno */}
+      <section className="relative pt-20 pb-32 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-brand-gradient opacity-[0.03] rounded-b-[100px]" />
+        
+        <div className="container mx-auto px-6 relative">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-purple-50 text-[#A855F7] px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-8">
+              <Sparkles size={14} /> O Futuro da Harmonização Facial
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold text-[#1A1A1A] mb-8 leading-[1.1]">
+              Encontre os melhores especialistas em <span className="text-brand-gradient">Harmonização.</span>
+            </h1>
+            <p className="text-xl text-[#4D4D4D] font-medium max-w-2xl mx-auto mb-12 leading-relaxed">
+              Conectamos você aos profissionais mais qualificados e verificados do Brasil para realçar sua beleza natural.
+            </p>
 
-          {/* Minimalist Search */}
-          <div className="max-w-2xl mx-auto mb-32">
-            <div className="relative flex items-center border-b border-[#1C1917]/10 pb-4 group focus-within:border-[#1C1917]/40 transition-colors">
-              <Search className="text-[#1C1917]/20 mr-4" size={20} strokeWidth={1} />
-              <input 
-                placeholder="Qual procedimento você deseja?" 
-                className="flex-1 bg-transparent border-none outline-none text-xl font-light placeholder:text-[#1C1917]/20"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#1C1917] hover:opacity-60 transition-opacity ml-4">
-                Explorar
-              </button>
+            {/* Modern Search Bar */}
+            <div className="max-w-2xl mx-auto bg-white p-2 rounded-[2rem] shadow-2xl shadow-purple-100 border border-purple-50 flex items-center">
+              <div className="flex-1 flex items-center px-6">
+                <Search className="text-gray-400 mr-3" size={20} />
+                <input 
+                  placeholder="Qual procedimento ou cidade busca?" 
+                  className="w-full bg-transparent border-none outline-none text-lg font-medium placeholder:text-gray-300"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+              <Button className="bg-brand-gradient hover:opacity-90 text-white rounded-[1.5rem] px-8 h-14 font-bold text-lg shadow-lg shadow-purple-200">
+                Buscar
+              </Button>
             </div>
           </div>
 
-          {/* Floating Categories */}
-          <div className="flex flex-wrap justify-center gap-16">
-            {categories.map((cat) => (
-              <button key={cat.name} className="group flex flex-col items-center gap-4">
-                <div className="text-[#1C1917]/30 group-hover:text-[#1C1917] transition-colors duration-500">
-                  {cat.icon}
+          {/* Hero Image / Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { label: 'Profissionais Verificados', value: '500+', icon: <ShieldCheck className="text-[#5B2EFF]" /> },
+              { label: 'Procedimentos Realizados', value: '15k+', icon: <Zap className="text-[#A855F7]" /> },
+              { label: 'Satisfação dos Clientes', value: '99%', icon: <Heart className="text-[#EC4899]" /> },
+            ].map((stat, i) => (
+              <div key={i} className="bg-white p-8 rounded-3xl border border-gray-50 shadow-sm flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center mb-4">
+                  {stat.icon}
                 </div>
-                <span className="text-[10px] font-light uppercase tracking-[0.3em] text-[#1C1917]/40 group-hover:text-[#1C1917] transition-all duration-500 luxury-underline pb-1">
-                  {cat.name}
-                </span>
-              </button>
+                <div className="text-3xl font-bold text-[#1A1A1A] mb-1">{stat.value}</div>
+                <div className="text-sm font-medium text-gray-400">{stat.label}</div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Grid */}
-      <section className="py-32 border-t border-[#1C1917]/5">
-        <div className="container mx-auto px-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
-            <div className="max-w-2xl">
-              <h2 className="text-5xl font-serif text-[#1C1917] mb-8">Especialistas em Destaque</h2>
-              <p className="text-lg text-[#1C1917]/50 font-light leading-relaxed">
-                Uma seleção rigorosa de profissionais que definem os novos padrões da estética facial contemporânea.
-              </p>
+      {/* Featured Professionals Grid */}
+      <section className="py-24 bg-gray-50/50">
+        <div className="container mx-auto px-6">
+          <div className="flex items-end justify-between mb-16">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-4">Especialistas em Destaque</h2>
+              <p className="text-lg text-[#4D4D4D] font-medium">Os profissionais mais bem avaliados da nossa rede.</p>
             </div>
-            <Link to="/profissionais" className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#1C1917] luxury-underline pb-1">
-              Ver Diretório Completo
+            <Link to="/profissionais">
+              <Button variant="ghost" className="text-[#5B2EFF] font-bold gap-2 hover:bg-purple-50 rounded-full">
+                Ver todos <ArrowRight size={18} />
+              </Button>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {featured.map(prof => (
               <ProfessionalCard key={prof.id} professional={prof} />
             ))}
@@ -90,12 +93,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer Quote */}
-      <section className="py-48 text-center border-t border-[#1C1917]/5">
-        <div className="max-w-3xl mx-auto px-12">
-          <p className="text-3xl font-serif italic text-[#1C1917]/60 leading-relaxed">
-            "A verdadeira sofisticação reside na harmonia entre a ciência e a arte do rejuvenescimento natural."
-          </p>
+      {/* CTA Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-6">
+          <div className="bg-brand-gradient rounded-[3rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-purple-300">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+            <div className="relative z-10">
+              <h2 className="text-4xl md:text-6xl font-bold mb-8">Você é um profissional?</h2>
+              <p className="text-xl text-white/80 font-medium max-w-2xl mx-auto mb-12">
+                Junte-se à maior plataforma de harmonização facial do Brasil e alcance novos pacientes todos os dias.
+              </p>
+              <Link to="/login">
+                <Button className="bg-white text-[#5B2EFF] hover:bg-gray-50 rounded-full px-12 h-16 font-bold text-xl shadow-xl">
+                  Cadastrar meu Perfil
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>
