@@ -45,7 +45,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           avaliacao: Number(p.avaliacao),
           descricao: p.descricao,
           whatsappNumber: p.whatsapp_number,
-          destaque: p.destaque
+          destaque: p.destaque,
+          formacoes: p.formacoes || [],
+          enderecoCompleto: p.endereco_completo,
+          galeriaResultados: p.galeria_resultados || []
         }));
         setProfessionals(mappedData);
       }
@@ -81,7 +84,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       avaliacao: p.avaliacao,
       descricao: p.descricao,
       whatsapp_number: p.whatsappNumber,
-      destaque: p.destaque
+      destaque: p.destaque,
+      formacoes: p.formacoes,
+      endereco_completo: p.enderecoCompleto,
+      galeria_resultados: p.galeriaResultados
     }]);
 
     if (error) throw error;
@@ -98,7 +104,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       avaliacao: p.avaliacao,
       descricao: p.descricao,
       whatsapp_number: p.whatsappNumber,
-      destaque: p.destaque
+      destaque: p.destaque,
+      formacoes: p.formacoes,
+      endereco_completo: p.enderecoCompleto,
+      galeria_resultados: p.galeriaResultados
     }).eq('id', p.id);
 
     if (error) throw error;

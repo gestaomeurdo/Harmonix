@@ -1,3 +1,9 @@
+export interface SuccessCase {
+  titulo: string;
+  antes: string;
+  depois: string;
+}
+
 export interface Professional {
   id: string;
   nome: string;
@@ -9,6 +15,9 @@ export interface Professional {
   descricao: string;
   whatsappNumber: string;
   destaque: boolean;
+  formacoes?: string[];
+  enderecoCompleto?: string;
+  galeriaResultados?: SuccessCase[];
 }
 
 export interface AuthState {
