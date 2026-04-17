@@ -6,8 +6,8 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* #FFFFFF */
-    --foreground: 0 0% 10%; /* #1A1A1A */
+    --background: 36 40% 98%; /* #FDFBF7 - Off-white/Nude */
+    --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 10%;
@@ -31,7 +31,7 @@
     --input: 240 6% 90%;
     --ring: 253 100% 59%;
 
-    --radius: 1.5rem; /* 24px+ para o estilo moderno */
+    --radius: 1.5rem;
   }
 }
 
@@ -40,15 +40,12 @@
     @apply border-border;
   }
   body {
-    @apply bg-white text-[#1A1A1A] antialiased;
+    @apply bg-[#FDFBF7] text-[#1A1A1A] antialiased;
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
   }
   h1, h2, h3, h4 {
-    @apply font-semibold tracking-tight text-[#1A1A1A];
-  }
-  p {
-    @apply text-[#4D4D4D] font-normal;
+    @apply font-light tracking-tighter text-[#1A1A1A];
   }
 }
 
@@ -60,10 +57,17 @@
   @apply bg-gradient-to-r from-[#5B2EFF] to-[#A855F7] bg-clip-text text-transparent;
 }
 
-.modern-shadow {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
-}
-
 .glass-card {
   @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm;
+}
+
+/* Custom scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 rounded-full;
 }
